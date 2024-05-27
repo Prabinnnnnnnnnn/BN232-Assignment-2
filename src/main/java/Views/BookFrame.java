@@ -2,24 +2,23 @@ package Views;
 
 // Import necessary classes for GUI components
 import javax.swing.*;
-import javax.swing.event.ListSelectionListener;
-import java.awt.*;
-
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 
 
 public class BookFrame extends JFrame {
     // Declare GUI components for book details and actions
-    private JTextField titleField; // Text field for the book title
-    private JTextField authorField; // Text field for the author
-    private JTextField publisherField; // Text field for the publisher
+    final JTextField titleField; // Text field for the book title
+    private final JTextField authorField; // Text field for the author
+    private final JTextField publisherField; // Text field for the publisher
 
-    private JTextField isbnField; // Text field for the number
-    private JTextField publisherYearField; // Text field for the publisher year
-    private JButton addButton; // button to add book details
-    private JButton deleteButton; // button to  delete book details
-    private JButton updateButton; // button to update bok details
+    private final JTextField isbnField; // Text field for the number
+    private final JTextField publisherYearField; // Text field for the publisher year
+    private final JButton addButton; // button to add book details
+    private final JButton deleteButton; // button to  delete book details
+    private final JButton updateButton; // button to update bok details
     private JList<String> bookList ; // list to display books
-    private DefaultListModel<String> bookListModel;// Model for teh book list
+    private final DefaultListModel<String> bookListModel;// Model for teh book list
 
     public BookFrame() {
         setTitle("Book Management System"); // set the title of the frame
