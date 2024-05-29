@@ -33,8 +33,6 @@ public class Book {
      */
     private int catalogueNumber;
 
-
-
     public Book(String title, String author, String edition, String pubYear, String isbn, String publisher, int catalogueNumber) {
         this.title = title;
         this.author = author;
