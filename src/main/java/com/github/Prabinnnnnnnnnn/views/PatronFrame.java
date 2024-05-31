@@ -49,8 +49,9 @@ public class PatronFrame extends JFrame {
         setLocationRelativeTo(null);
 
         // Initialize text fields
-        nameField = new JTextField(20); // 20 columns wide
         idField = new JTextField(20); // 20 columns wide
+        nameField = new JTextField(20); // 20 columns wide
+
         addressField = new JTextField(20); // 20 columns wide
         phoneField = new JTextField(20); // 20 columns wide
 
@@ -70,14 +71,15 @@ public class PatronFrame extends JFrame {
         JPanel inputPanel = new JPanel();
         // Use a grid layout with 5 rows and 2 columns
         inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
+        JPanel idPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        idPanel.add(new JLabel("ID:"));
+        idPanel.add(idField);
 
         JPanel namePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         namePanel.add(new JLabel("Name:"));
         namePanel.add(nameField);
 
-        JPanel idPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        idPanel.add(new JLabel("ID:"));
-        idPanel.add(idField);
+
 
         JPanel addressPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         addressPanel.add(new JLabel("Address:"));
@@ -91,11 +93,12 @@ public class PatronFrame extends JFrame {
 
 
         // Add labels and text fields to the input panel
+        inputPanel.add(idField); // Text field for the ID
+        inputPanel.add(new JLabel("Address:")); // Label for the address
         inputPanel.add(new JLabel("Name:")); // Label for the name
         inputPanel.add(nameField); // Text field for the name
         inputPanel.add(new JLabel("ID:")); // Label for the ID
-        inputPanel.add(idField); // Text field for the ID
-        inputPanel.add(new JLabel("Address:")); // Label for the address
+
         inputPanel.add(addressField); // Text field for the address
         inputPanel.add(new JLabel("Phone:")); // Label for the phone number
         inputPanel.add(phoneField); // Text field for the phone number
