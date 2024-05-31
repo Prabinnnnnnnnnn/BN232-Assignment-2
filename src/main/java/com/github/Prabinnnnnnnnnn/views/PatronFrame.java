@@ -120,6 +120,13 @@ public class PatronFrame extends JFrame {
         addButton.addActionListener(e -> {
             if(!nameField.getText().isEmpty() && !idField.getText().isEmpty() && !addressField.getText().isEmpty() && !phoneField.getText().isEmpty()) {
                 addPatron();
+                String name = nameField.getText();
+                String id = idField.getText();
+                String address = addressField.getText();
+                String phone= phoneField.getText();
+
+
+                listModel.addElement( String.format("ID : %s, Name: %s, Address: %s, phone: %s", name, id, address, phone));
 
                 JOptionPane.showMessageDialog(this, "Patron added");
                 refreshFields();
@@ -132,6 +139,7 @@ public class PatronFrame extends JFrame {
          if(!idField.getText().isEmpty() ) {
              listModel.removeElement(idField.getText());
              deletePatron();
+
              JOptionPane.showMessageDialog(this, "Patron deleted");
              refreshFields();
          }else{
@@ -142,10 +150,13 @@ public class PatronFrame extends JFrame {
      updateButton.addActionListener(e -> {
          if(!nameField.getText().isEmpty() && !idField.getText().isEmpty() && !phoneField.getText().isEmpty()) {
 
-             listModel.addElement(nameField.getText());
-             listModel.addElement(idField.getText());
-             listModel.addElement(addressField.getText());
-             listModel.addElement(phoneField.getText());
+             String name = nameField.getText();
+             String id = idField.getText();
+             String address = addressField.getText();
+             String phone= phoneField.getText();
+
+
+             listModel.addElement( String.format("ID : %s, Name: %s, Address: %s, phone: %s", name, id, address, phone));
              updatePatron();
              JOptionPane.showMessageDialog(this, "Patron updated");
              refreshFields();

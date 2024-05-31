@@ -98,14 +98,14 @@ public class LoanFrame extends JFrame {
                     !statusField.getText().isEmpty()) {
 
                 // Add loan logic here (you can modify this part based on your backend)
-                String loanItem = IsbnField.getText();
-                String owner = PatronIDField.getText();
+                String Isbn = IsbnField.getText();
+                String PatronID = PatronIDField.getText();
                 String startDate = startDateField.getText();
                 String endDate = endDateField.getText();
                 String status = statusField.getText();
 
                 // Add to list model
-                listModel.addElement(String.format("Item: %s, Owner: %s, Start: %s, End: %s, Status: %s", loanItem, owner, startDate, endDate, status));
+                listModel.addElement(String.format("Isbn number: %s, Patron ID: %s, Start: %s, End: %s, Status: %s", Isbn, PatronID, startDate, endDate, status));
 
                 // Show a success message
                 JOptionPane.showMessageDialog(this, "Loan created successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
@@ -127,14 +127,14 @@ public class LoanFrame extends JFrame {
                     !statusField.getText().isEmpty()) {
 
                 // Update loan logic here (you can modify this part based on your backend)
-                String loanItem = IsbnField.getText();
-                String owner = PatronIDField.getText();
+                String Isbn = IsbnField.getText();
+                String PatronID = PatronIDField.getText();
                 String startDate = startDateField.getText();
                 String endDate = endDateField.getText();
                 String status = statusField.getText();
 
                 // Update list model
-                listModel.set(selectedIndex, String.format("Item: %s, Owner: %s, Start: %s, End: %s, Status: %s", loanItem, owner, startDate, endDate, status));
+                listModel.set(selectedIndex, String.format("Isbn number : %s, Patron ID: %s, Start: %s, End: %s, Status: %s", Isbn, PatronID, startDate, endDate, status));
 
                 // Show a success message
                 JOptionPane.showMessageDialog(this, "Loan updated successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
