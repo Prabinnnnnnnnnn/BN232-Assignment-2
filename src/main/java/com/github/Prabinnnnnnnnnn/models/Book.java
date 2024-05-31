@@ -33,11 +33,11 @@ public class Book {
     /**
      * The internal catalogue number for the book
      */
-    private int catalogueNumber;
+    private String catalogueNumber;
 
     private ArrayList<BookCopy> copies;
 
-    public Book(String title, String author, String edition, String pubYear, String isbn, String publisher, int catalogueNumber) {
+    public Book(String title, String author, String edition, String pubYear, String isbn, String publisher, String catalogueNumber) {
         this.title = title;
         this.author = author;
         this.edition = edition;
@@ -82,7 +82,7 @@ public class Book {
     public String getPublisher() {
         return publisher;
     }
-    public int getCatalogueNumber() {
+    public String getCatalogueNumber() {
         return catalogueNumber;
     }
 
@@ -104,7 +104,7 @@ public class Book {
     public void setPublisher(String publisher) {
         this.publisher = publisher;
     }
-    public void setCatalogueNumber(int catalogueNumber) {
+    public void setCatalogueNumber(String catalogueNumber) {
         this.catalogueNumber = catalogueNumber;
     }
 }

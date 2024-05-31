@@ -37,7 +37,7 @@ public class NewBookController {
         book.createNewCopy(newCopy);
     }
 
-    public void createNewBook(String title, String author, String edition, String pubYear, String ISBN, String publisher, int catalogueNumber) {
+    public void createNewBook(String title, String author, String edition, String pubYear, String ISBN, String publisher, String catalogueNumber) {
         Book newBook = new Book(title, author, edition, pubYear, ISBN, publisher, catalogueNumber);
         books.add(newBook);
     }
