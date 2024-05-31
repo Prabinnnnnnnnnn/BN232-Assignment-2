@@ -5,6 +5,7 @@ import com.github.Prabinnnnnnnnnn.Controller.CheckoutHandler;
 import com.github.Prabinnnnnnnnnn.Controller.NewBookController;
 import com.github.Prabinnnnnnnnnn.models.Book;
 import com.github.Prabinnnnnnnnnn.views.BookFrame;
+import com.github.Prabinnnnnnnnnn.views.LoanFrame;
 import com.github.Prabinnnnnnnnnn.views.PatronFrame;
 import javax.swing.SwingUtilities;
 import java.util.ArrayList;
@@ -23,5 +24,14 @@ public class Main {
             PatronFrame patronFrame = new PatronFrame(new CheckoutHandler());
             patronFrame.setVisible(true); // Make the PatronFrame visible
         });
+        
+                SwingUtilities.invokeLater(() -> {
+                    LoanFrame loanFrame = new LoanFrame();
+                    loanFrame.setVisible(true);
+                });
+
+
+        }
     }
-}
+
+
