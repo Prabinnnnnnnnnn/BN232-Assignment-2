@@ -48,7 +48,26 @@ public class PatronFrame extends JFrame {
         // Create a panel for input fields and buttons
         JPanel inputPanel = new JPanel();
         // Use a grid layout with 5 rows and 2 columns
-        inputPanel.setLayout(new GridLayout(5, 2));
+        inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
+
+        JPanel namePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        namePanel.add(new JLabel("Name:"));
+        namePanel.add(nameField);
+
+        JPanel idPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        idPanel.add(new JLabel("ID:"));
+        idPanel.add(idField);
+
+        JPanel addressPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        addressPanel.add(new JLabel("Address:"));
+        addressPanel.add(addressField);
+
+        JPanel phonePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        phonePanel.add(new JLabel("Phone:"));
+        phonePanel.add(phoneField);
+
+
+
 
         // Add labels and text fields to the input panel
         inputPanel.add(new JLabel("Name:")); // Label for the name

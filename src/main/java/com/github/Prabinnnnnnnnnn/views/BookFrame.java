@@ -1,6 +1,8 @@
 package com.github.Prabinnnnnnnnnn.views;
 
 // Import necessary classes for GUI components
+import com.github.Prabinnnnnnnnnn.Controller.NewBookController;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -12,13 +14,18 @@ public class BookFrame extends JFrame {
     private final JTextField isbnField; // Text field for the ISBN number
     private final JTextField publicationYearField; // Text field for the publication year
     private final JTextField publisherField; // Text field for the publisher
+    private final NewBookController Controller;
+    private  JTextField editionField;
+    private JTextField catalogueNumberField;
+
     private final JButton addButton; // Button to add a new book
     private final JButton updateButton; // Button to update book details
     private final JButton deleteButton; // Button to delete a book
     private final JList<String> bookList; // List to display books
     private final DefaultListModel<String> listModel; // Model for the book list
 
-    public BookFrame() {
+    public BookFrame(NewBookController Controller) {
+        this.Controller = Controller;
         // Set the title of the frame
         setTitle("Book Management");
         // Set the size of the frame
@@ -29,9 +36,14 @@ public class BookFrame extends JFrame {
         setLocationRelativeTo(null);
 
         // Initialize text fields
+        isbnField = new JTextField(20); // 20 columns wide
+
+
         titleField = new JTextField(20); // 20 columns wide
         authorField = new JTextField(20); // 20 columns wide
-        isbnField = new JTextField(20); // 20 columns wide
+
+        editionField = new JTextField(20); // 20 columns wide
+        catalogueNumberField = new JTextField(20); // 20 columns wide
         publicationYearField = new JTextField(20); // 20 columns wide
         publisherField = new JTextField(20); // 20 columns wide
 
@@ -62,6 +74,18 @@ public class BookFrame extends JFrame {
         isbnPanel.add(new JLabel("ISBN:"));
         isbnPanel.add(isbnField);
 
+
+
+
+        JPanel editionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        editionPanel.add(new JLabel("Edition:"));
+        editionPanel.add(editionField);
+
+        JPanel cataloguePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        cataloguePanel.add(new JLabel("Catalogue Number:"));
+        cataloguePanel.add(catalogueNumberField);
+
+
         JPanel publicationYearPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         publicationYearPanel.add(new JLabel("Publication Year:"));
         publicationYearPanel.add(publicationYearField);
@@ -78,6 +102,8 @@ public class BookFrame extends JFrame {
         // Add sub-panels to the input panel
         inputPanel.add(titlePanel);
         inputPanel.add(authorPanel);
+        inputPanel.add(editionPanel);
+        inputPanel.add(cataloguePanel);
         inputPanel.add(isbnPanel);
         inputPanel.add(publicationYearPanel);
         inputPanel.add(publisherPanel);
@@ -128,5 +154,14 @@ public class BookFrame extends JFrame {
 
     public DefaultListModel<String> getListModel() {
         return listModel;
+    }
+    public NewBookController getController() {
+        return Controller;
+    }
+    public JTextField getEditionField() {
+        return editionField;
+    }
+    public JTextField getCatalogueNumberField() {
+        return catalogueNumberField;
     }
 }
