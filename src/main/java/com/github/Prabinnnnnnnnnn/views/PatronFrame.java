@@ -51,7 +51,6 @@ public class PatronFrame extends JFrame {
         // Initialize text fields
         idField = new JTextField(20); // 20 columns wide
         nameField = new JTextField(20); // 20 columns wide
-
         addressField = new JTextField(20); // 20 columns wide
         phoneField = new JTextField(20); // 20 columns wide
 
@@ -71,6 +70,8 @@ public class PatronFrame extends JFrame {
         JPanel inputPanel = new JPanel();
         // Use a grid layout with 5 rows and 2 columns
         inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
+
+
         JPanel idPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         idPanel.add(new JLabel("ID:"));
         idPanel.add(idField);
