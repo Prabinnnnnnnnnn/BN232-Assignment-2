@@ -2,6 +2,7 @@ package com.github.Prabinnnnnnnnnn.views;
 
 // Import necessary classes for GUI components
 import com.github.Prabinnnnnnnnnn.Controller.NewBookController;
+import com.github.Prabinnnnnnnnnn.models.Book;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,6 +26,28 @@ public class BookFrame extends JFrame {
     private final JButton deleteButton; // Button to delete a book
     private final JList<String> bookList; // List to display books
     private final DefaultListModel<String> listModel; // Model for the book list
+    // Method to refresh all fields
+    private void refreshFields() {
+        isbnField.setText("");
+        titleField.setText("");
+        authorField.setText("");
+        editionField.setText("");
+        catalogueNumberField.setText("");
+        publicationYearField.setText("");
+        publisherField.setText("");
+    }
+
+    // Method to fill fields with book information
+    private void fillFieldsWithBook(Book book) {
+        isbnField.setText(book.getIsbn());
+        titleField.setText(book.getTitle());
+        authorField.setText(book.getAuthor());
+        editionField.setText(book.getEdition());
+        catalogueNumberField.setText(book.getCatalogueNumber());
+        publicationYearField.setText(book.getPublicationYear());
+        publisherField.setText(book.getPublisher());
+    }
+
 
     public BookFrame(NewBookController Controller) {
         this.Controller = Controller;
@@ -64,6 +87,11 @@ public class BookFrame extends JFrame {
         inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS)); // Use BoxLayout for vertical arrangement
 
         // Create and add sub-panels for each row of input fields and buttons
+
+        JPanel isbnPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        isbnPanel.add(new JLabel("ISBN:"));
+        isbnPanel.add(isbnField);
+
         JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         titlePanel.add(new JLabel("Title:"));
         titlePanel.add(titleField);
@@ -72,9 +100,6 @@ public class BookFrame extends JFrame {
         authorPanel.add(new JLabel("Author:"));
         authorPanel.add(authorField);
 
-        JPanel isbnPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        isbnPanel.add(new JLabel("ISBN:"));
-        isbnPanel.add(isbnField);
 
 
 
@@ -102,11 +127,12 @@ public class BookFrame extends JFrame {
         buttonPanel.add(deleteButton);
 
         // Add sub-panels to the input panel
+        inputPanel.add(isbnPanel);
         inputPanel.add(titlePanel);
         inputPanel.add(authorPanel);
         inputPanel.add(editionPanel);
         inputPanel.add(cataloguePanel);
-        inputPanel.add(isbnPanel);
+
         inputPanel.add(publicationYearPanel);
         inputPanel.add(publisherPanel);
         inputPanel.add(buttonPanel);
@@ -131,6 +157,7 @@ public class BookFrame extends JFrame {
 
                 // Show a success message
                 JOptionPane.showMessageDialog(this, "Book created successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                refreshFields();
             } else {
                 // Show a message to the user indicating that all fields must be filled
                 JOptionPane.showMessageDialog(this, "Please fill in all fields.", "Incomplete Fields", JOptionPane.WARNING_MESSAGE);
@@ -145,13 +172,40 @@ public class BookFrame extends JFrame {
             if(!isbnField.getText().isEmpty()) {
                 deleteBook();
                 JOptionPane.showMessageDialog(this, "Book deleted successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                refreshFields();
             } else {
                 JOptionPane.showMessageDialog(this, "Please fill in all fields.", "Incomplete Fields", JOptionPane.WARNING_MESSAGE);
             }
 
         });
 
+        updateButton.addActionListener(e -> {
+            if(!isbnField.getText().isEmpty() ) {
 
+                listModel.addElement(isbnField.getText());
+                listModel.addElement(titleField.getText());
+                listModel.addElement(authorField.getText());
+                listModel.addElement(editionField.getText());
+                listModel.addElement(catalogueNumberField.getText());
+                listModel.addElement(publisherField.getText());
+                listModel.addElement(publicationYearField.getText());
+
+                UpdateBook();
+                JOptionPane.showMessageDialog(this, "Book updated successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                refreshFields();
+            }else{
+                JOptionPane.showMessageDialog(this, "Please fill in all fields.", "Incomplete Fields", JOptionPane.WARNING_MESSAGE);
+            }
+        });
+
+
+
+
+
+
+    }
+
+    private void UpdateBook() {
     }
 
     private void deleteBook() {

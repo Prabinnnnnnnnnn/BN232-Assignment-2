@@ -107,4 +107,8 @@ public class Book {
     public void setCatalogueNumber(String catalogueNumber) {
         this.catalogueNumber = catalogueNumber;
     }
+
+    public String getPublicationYear() {
+        return "";
+    }
 }

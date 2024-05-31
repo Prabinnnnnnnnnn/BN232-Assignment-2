@@ -42,4 +42,9 @@ public class Patron {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
+    public String getId() {
+        return null;
+    }
+
 }

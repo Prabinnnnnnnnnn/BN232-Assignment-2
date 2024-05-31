@@ -1,6 +1,7 @@
 
 package com.github.Prabinnnnnnnnnn;
 
+import com.github.Prabinnnnnnnnnn.Controller.CheckoutHandler;
 import com.github.Prabinnnnnnnnnn.Controller.NewBookController;
 import com.github.Prabinnnnnnnnnn.models.Book;
 import com.github.Prabinnnnnnnnnn.views.BookFrame;
@@ -19,7 +20,7 @@ public class Main {
 
         // Create and display the PatronFrame on the event dispatching thread
         SwingUtilities.invokeLater(() -> {
-            PatronFrame patronFrame = new PatronFrame();
+            PatronFrame patronFrame = new PatronFrame(new CheckoutHandler());
             patronFrame.setVisible(true); // Make the PatronFrame visible
         });
     }

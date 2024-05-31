@@ -1,6 +1,9 @@
 package com.github.Prabinnnnnnnnnn.views;
 
 // Import necessary classes for GUI components
+import com.github.Prabinnnnnnnnnn.Controller.CheckoutHandler;
+import com.github.Prabinnnnnnnnnn.models.Patron;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -16,8 +19,26 @@ public class PatronFrame extends JFrame {
     private final JButton deleteButton; // Button to delete a patron
     private final JList<String> patronList; // List to display patrons
     private final DefaultListModel<String> listModel; // Model for the patron list
+    private CheckoutHandler Handler;
+    // Method to refresh all fields
+    private void refreshFields() {
 
-    public PatronFrame() {
+
+        nameField.setText("");
+        idField.setText("");
+        addressField.setText("");
+        phoneField.setText("");
+    }
+
+    // Method to fill fields with patron information
+    private void fillFieldsWithPatron(Patron patron) {
+        nameField.setText(patron.getName());
+        idField.setText(patron.getId());
+        addressField.setText(patron.getAddress());
+        phoneField.setText(patron.getPhone());
+    }
+
+    public PatronFrame(CheckoutHandler handler) {
         // Set the title of the frame
         setTitle("Patron Management");
         // Set the size of the frame
@@ -88,6 +109,52 @@ public class PatronFrame extends JFrame {
         add(inputPanel, BorderLayout.NORTH);
         // Add the patron list inside a scroll pane to the center of the frame
         add(new JScrollPane(patronList), BorderLayout.CENTER);
+
+        addButton.addActionListener(e -> {
+            if(!nameField.getText().isEmpty() && !idField.getText().isEmpty() && !addressField.getText().isEmpty() && !phoneField.getText().isEmpty()) {
+                addPatron();
+
+                JOptionPane.showMessageDialog(this, "Patron added");
+                refreshFields();
+            } else{
+                JOptionPane.showMessageDialog(this, "Please fill all the fields");
+            }
+        });
+
+     deleteButton.addActionListener(e -> {
+         if(!idField.getText().isEmpty() ) {
+             listModel.removeElement(idField.getText());
+             deletePatron();
+             JOptionPane.showMessageDialog(this, "Patron deleted");
+             refreshFields();
+         }else{
+             JOptionPane.showMessageDialog(this, "Please fill all the fields");
+         }
+     });
+
+     updateButton.addActionListener(e -> {
+         if(!nameField.getText().isEmpty() && !idField.getText().isEmpty() && !phoneField.getText().isEmpty()) {
+
+             listModel.addElement(nameField.getText());
+             listModel.addElement(idField.getText());
+             listModel.addElement(addressField.getText());
+             listModel.addElement(phoneField.getText());
+             updatePatron();
+             JOptionPane.showMessageDialog(this, "Patron updated");
+             refreshFields();
+         }else{
+             JOptionPane.showMessageDialog(this, "Please fill all the fields");
+         }
+     });
+    }
+
+    private void updatePatron() {
+    }
+
+    private void deletePatron() {
+    }
+
+    private void addPatron() {
     }
 
     // Getter methods to access the GUI components
