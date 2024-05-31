@@ -1,13 +1,17 @@
 package com.github.Prabinnnnnnnnnn.views;
 
 // Import necessary classes for GUI components
+
 import com.github.Prabinnnnnnnnnn.Controller.NewBookController;
 import com.github.Prabinnnnnnnnnn.models.Book;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class BookFrame extends JFrame {
 
@@ -18,36 +22,34 @@ public class BookFrame extends JFrame {
     private final JTextField publicationYearField; // Text field for the publication year
     private final JTextField publisherField; // Text field for the publisher
     private final NewBookController Controller;
-    private  JTextField editionField;
-    private JTextField catalogueNumberField;
+    private final JTextField editionField;
+    private final JTextField catalogueNumberField;
 
     private final JButton addButton; // Button to add a new book
     private final JButton updateButton; // Button to update book details
     private final JButton deleteButton; // Button to delete a book
-    private final JList<String> bookList; // List to display books
-    private final DefaultListModel<String> listModel; // Model for the book list
-    // Method to refresh all fields
+    private final JTable bookList; // List to display books
+    private final DefaultTableModel listModel; // Model for the book list
+
     private void refreshFields() {
-        isbnField.setText("");
         titleField.setText("");
         authorField.setText("");
+        isbnField.setText("");
+        publisherField.setText("");
+        publicationYearField.setText("");
         editionField.setText("");
         catalogueNumberField.setText("");
-        publicationYearField.setText("");
-        publisherField.setText("");
     }
 
-    // Method to fill fields with book information
-    private void fillFieldsWithBook(Book book) {
-        isbnField.setText(book.getIsbn());
-        titleField.setText(book.getTitle());
-        authorField.setText(book.getAuthor());
-        editionField.setText(book.getEdition());
-        catalogueNumberField.setText(book.getCatalogueNumber());
-        publicationYearField.setText(book.getPublicationYear());
-        publisherField.setText(book.getPublisher());
+    private void setFields(String title, String author, String isbn, String publicationYear, String publisher, String edition, String catalogueNumber) {
+        titleField.setText(title);
+        authorField.setText(author);
+        isbnField.setText(isbn);
+        publisherField.setText(publisher);
+        publicationYearField.setText(publicationYear);
+        editionField.setText(edition);
+        catalogueNumberField.setText(catalogueNumber);
     }
-
 
     public BookFrame(NewBookController Controller) {
         this.Controller = Controller;
@@ -78,20 +80,59 @@ public class BookFrame extends JFrame {
         deleteButton = new JButton("Delete Book");
 
         // Initialize the list model and the JList for books
-        listModel = new DefaultListModel<>();
-        bookList = new JList<>(listModel);
+        final String[] columns = new String[]{"ISBN", "Title", "Author", "Edition", "Publication Year", "Publisher", "Catalogue"};
+        listModel = new DefaultTableModel(columns, 0);
+        bookList = new JTable(listModel) {
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        bookList.setCellSelectionEnabled(false);
+        bookList.setRowSelectionAllowed(true);
         bookList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Allow only single selection
+
+        bookList.getSelectionModel().addListSelectionListener(e -> {
+
+            if (bookList.getSelectedRow() == -1) return;
+            if (e.getValueIsAdjusting()) return;
+
+            String title = "";
+            String author = "";
+            String isbn = "";
+            String publicationYear = "";
+            String publisher = "";
+            String edition = "";
+            String catalogueNumber = "";
+
+            for (int i = bookList.getColumnCount() - 1; i >= 0; i--) {
+                switch (bookList.getColumnName(i)) {
+                    case "ISBN":
+                        isbn = bookList.getValueAt(bookList.getSelectedRow(), i).toString();
+                    case "Title":
+                        title = bookList.getValueAt(bookList.getSelectedRow(), i).toString();
+                    case "Author":
+                        author = bookList.getValueAt(bookList.getSelectedRow(), i).toString();
+                    case "Edition":
+                        edition = bookList.getValueAt(bookList.getSelectedRow(), i).toString();
+                    case "Publication Year":
+                        publicationYear = bookList.getValueAt(bookList.getSelectedRow(), i).toString();
+                    case "Publisher":
+                        publisher = bookList.getValueAt(bookList.getSelectedRow(), i).toString();
+                    case "Catalogue":
+                        catalogueNumber = bookList.getValueAt(bookList.getSelectedRow(), i).toString();
+                }
+            }
+
+            setFields(title, author, isbn, publicationYear, publisher, edition, catalogueNumber);
+
+
+        });
 
         // Create a panel for input fields and buttons
         JPanel inputPanel = new JPanel();
         inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS)); // Use BoxLayout for vertical arrangement
 
         // Create and add sub-panels for each row of input fields and buttons
-
-        JPanel isbnPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        isbnPanel.add(new JLabel("ISBN:"));
-        isbnPanel.add(isbnField);
-
         JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         titlePanel.add(new JLabel("Title:"));
         titlePanel.add(titleField);
@@ -100,9 +141,9 @@ public class BookFrame extends JFrame {
         authorPanel.add(new JLabel("Author:"));
         authorPanel.add(authorField);
 
-
-
-
+        JPanel isbnPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        isbnPanel.add(new JLabel("ISBN:"));
+        isbnPanel.add(isbnField);
 
         JPanel editionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         editionPanel.add(new JLabel("Edition:"));
@@ -128,11 +169,11 @@ public class BookFrame extends JFrame {
 
         // Add sub-panels to the input panel
         inputPanel.add(isbnPanel);
+        inputPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
         inputPanel.add(titlePanel);
         inputPanel.add(authorPanel);
         inputPanel.add(editionPanel);
         inputPanel.add(cataloguePanel);
-
         inputPanel.add(publicationYearPanel);
         inputPanel.add(publisherPanel);
         inputPanel.add(buttonPanel);
@@ -142,8 +183,11 @@ public class BookFrame extends JFrame {
         // Add the book list inside a scroll pane to the center of the frame
         add(new JScrollPane(bookList), BorderLayout.CENTER);
 
-
         addButton.addActionListener(e -> {
+            bookList.clearSelection();
+            bookList.getSelectionModel().setValueIsAdjusting(true);
+
+
             if (!isbnField.getText().isEmpty() &&
                     !titleField.getText().isEmpty() &&
                     !authorField.getText().isEmpty() &&
@@ -157,63 +201,96 @@ public class BookFrame extends JFrame {
 
                 // Show a success message
                 JOptionPane.showMessageDialog(this, "Book created successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
-                refreshFields();
             } else {
                 // Show a message to the user indicating that all fields must be filled
                 JOptionPane.showMessageDialog(this, "Please fill in all fields.", "Incomplete Fields", JOptionPane.WARNING_MESSAGE);
             }
+            bookList.getSelectionModel().setValueIsAdjusting(false);
+
         });
 
 
+        updateButton.addActionListener(e -> {
+            bookList.clearSelection();
+            bookList.getSelectionModel().setValueIsAdjusting(true);
+            if (!isbnField.getText().isEmpty() &&
+                    !titleField.getText().isEmpty() &&
+                    !authorField.getText().isEmpty() &&
+                    !editionField.getText().isEmpty() &&
+                    !catalogueNumberField.getText().isEmpty() &&
+                    !publisherField.getText().isEmpty() &&
+                    !publicationYearField.getText().isEmpty()) {
 
+                // All fields are filled, proceed with adding the book
+                updateBook();
+
+                // Show a success message
+                JOptionPane.showMessageDialog(this, "Book updated successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                // Show a message to the user indicating that all fields must be filled
+                JOptionPane.showMessageDialog(this, "Please fill in all fields.", "Incomplete Fields", JOptionPane.WARNING_MESSAGE);
+            }
+            bookList.getSelectionModel().setValueIsAdjusting(false);
+
+        });
 
 
         deleteButton.addActionListener(e -> {
-            if(!isbnField.getText().isEmpty()) {
+            bookList.clearSelection();
+            bookList.getSelectionModel().setValueIsAdjusting(true);
+
+            if (!isbnField.getText().isEmpty()) {
                 deleteBook();
                 JOptionPane.showMessageDialog(this, "Book deleted successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
-                refreshFields();
             } else {
                 JOptionPane.showMessageDialog(this, "Please fill in all fields.", "Incomplete Fields", JOptionPane.WARNING_MESSAGE);
             }
+            bookList.getSelectionModel().setValueIsAdjusting(false);
 
         });
 
-        updateButton.addActionListener(e -> {
-            if(!isbnField.getText().isEmpty() ) {
 
-                listModel.addElement(isbnField.getText());
-                listModel.addElement(titleField.getText());
-                listModel.addElement(authorField.getText());
-                listModel.addElement(editionField.getText());
-                listModel.addElement(catalogueNumberField.getText());
-                listModel.addElement(publisherField.getText());
-                listModel.addElement(publicationYearField.getText());
-
-                UpdateBook();
-                JOptionPane.showMessageDialog(this, "Book updated successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
-                refreshFields();
-            }else{
-                JOptionPane.showMessageDialog(this, "Please fill in all fields.", "Incomplete Fields", JOptionPane.WARNING_MESSAGE);
-            }
-        });
-
-
-
-
-
-
-    }
-
-    private void UpdateBook() {
     }
 
     private void deleteBook() {
+        Controller.getBooks().forEach(book -> {
+            if (book.getIsbn().equals(isbnField.getText())) {
+                Controller.deleteBook(book);
+            }
+        });
+        updateBookList();
+        refreshFields();
+    }
+
+    private void updateBook() {
+        Controller.getBooks().forEach(book -> {
+            if (book.getIsbn().equals(isbnField.getText())) {
+                book.setAuthor(authorField.getText());
+                book.setEdition(editionField.getText());
+                book.setTitle(titleField.getText());
+                book.setPublisher(publisherField.getText());
+                book.setIsbn(isbnField.getText());
+                book.setPubYear(publicationYearField.getText());
+                book.setCatalogueNumber(catalogueNumberField.getText());
+            }
+        });
+        updateBookList();
+        refreshFields();
     }
 
     private void addBook() {
+        Controller.createNewBook(titleField.getText(), authorField.getText(), editionField.getText(), publicationYearField.getText(), isbnField.getText(), publisherField.getText(), catalogueNumberField.getText());
+        updateBookList();
+        refreshFields();
     }
 
+    private void updateBookList() {
+        listModel.setRowCount(0);
+        Controller.getBooks().forEach(book -> {
+            Object[] temp = new Object[]{book.getIsbn(), book.getTitle(), book.getAuthor(), book.getEdition(), book.getPubYear(), book.getPublisher(), book.getCatalogueNumber()};
+            listModel.addRow(temp);
+        });
+    }
 
     // Getter methods to access the GUI components
     public JTextField getTitleField() {
@@ -248,19 +325,22 @@ public class BookFrame extends JFrame {
         return deleteButton;
     }
 
-    public JList<String> getBookList() {
+    public JTable getBookList() {
         return bookList;
     }
 
-    public DefaultListModel<String> getListModel() {
+    public DefaultTableModel getListModel() {
         return listModel;
     }
+
     public NewBookController getController() {
         return Controller;
     }
+
     public JTextField getEditionField() {
         return editionField;
     }
+
     public JTextField getCatalogueNumberField() {
         return catalogueNumberField;
     }

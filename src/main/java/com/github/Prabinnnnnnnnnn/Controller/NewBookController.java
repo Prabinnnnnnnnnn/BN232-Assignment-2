@@ -41,4 +41,10 @@ public class NewBookController {
         Book newBook = new Book(title, author, edition, pubYear, ISBN, publisher, catalogueNumber);
         books.add(newBook);
     }
+    public ArrayList<Book> getBooks() {
+        return books;
+    }
+    public void deleteBook(Book book) {
+        books.remove(book);
+    }
 }
