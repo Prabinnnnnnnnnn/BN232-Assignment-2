@@ -80,8 +80,6 @@ public class PatronFrame extends JFrame {
         namePanel.add(new JLabel("Name:"));
         namePanel.add(nameField);
 
-
-
         JPanel addressPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         addressPanel.add(new JLabel("Address:"));
         addressPanel.add(addressField);
@@ -95,14 +93,21 @@ public class PatronFrame extends JFrame {
 
         // Add labels and text fields to the input panel
         inputPanel.add(idField); // Text field for the ID
-        inputPanel.add(new JLabel("Address:")); // Label for the address
-        inputPanel.add(new JLabel("Name:")); // Label for the name
-        inputPanel.add(nameField); // Text field for the name
         inputPanel.add(new JLabel("ID:")); // Label for the ID
 
+        inputPanel.add(nameField); // Text field for the name
+        inputPanel.add(new JLabel("Name:")); // Label for the name
+
+
         inputPanel.add(addressField); // Text field for the address
-        inputPanel.add(new JLabel("Phone:")); // Label for the phone number
+        inputPanel.add(new JLabel("Address:")); // Label for the address
+
+
+
+
         inputPanel.add(phoneField); // Text field for the phone number
+        inputPanel.add(new JLabel("Phone:")); // Label for the phone number
+
 
         // Add buttons to the input panel
         inputPanel.add(addButton); // Add button
