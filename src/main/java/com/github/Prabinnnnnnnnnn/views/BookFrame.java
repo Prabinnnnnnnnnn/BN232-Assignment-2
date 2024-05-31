@@ -5,6 +5,8 @@ import com.github.Prabinnnnnnnnnn.Controller.NewBookController;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class BookFrame extends JFrame {
 
@@ -113,7 +115,51 @@ public class BookFrame extends JFrame {
         add(inputPanel, BorderLayout.NORTH);
         // Add the book list inside a scroll pane to the center of the frame
         add(new JScrollPane(bookList), BorderLayout.CENTER);
+
+
+        addButton.addActionListener(e -> {
+            if (!isbnField.getText().isEmpty() &&
+                    !titleField.getText().isEmpty() &&
+                    !authorField.getText().isEmpty() &&
+                    !editionField.getText().isEmpty() &&
+                    !catalogueNumberField.getText().isEmpty() &&
+                    !publisherField.getText().isEmpty() &&
+                    !publicationYearField.getText().isEmpty()) {
+
+                // All fields are filled, proceed with adding the book
+                addBook();
+
+                // Show a success message
+                JOptionPane.showMessageDialog(this, "Book created successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                // Show a message to the user indicating that all fields must be filled
+                JOptionPane.showMessageDialog(this, "Please fill in all fields.", "Incomplete Fields", JOptionPane.WARNING_MESSAGE);
+            }
+        });
+
+
+
+
+
+        deleteButton.addActionListener(e -> {
+            if(!isbnField.getText().isEmpty()) {
+                deleteBook();
+                JOptionPane.showMessageDialog(this, "Book deleted successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Please fill in all fields.", "Incomplete Fields", JOptionPane.WARNING_MESSAGE);
+            }
+
+        });
+
+
     }
+
+    private void deleteBook() {
+    }
+
+    private void addBook() {
+    }
+
 
     // Getter methods to access the GUI components
     public JTextField getTitleField() {
