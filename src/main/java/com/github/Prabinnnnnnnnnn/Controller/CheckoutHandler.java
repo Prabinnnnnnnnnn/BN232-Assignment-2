@@ -2,10 +2,8 @@ package com.github.Prabinnnnnnnnnn.Controller;
 
 import java.util.ArrayList;
 import java.util.Date;
-import com.github.Prabinnnnnnnnnn.models.Patron;
-import com.github.Prabinnnnnnnnnn.models.Loan;
-import com.github.Prabinnnnnnnnnn.models.BookCopy;
-import com.github.Prabinnnnnnnnnn.models.Book;
+
+import com.github.Prabinnnnnnnnnn.models.*;
 
 
 public class CheckoutHandler {

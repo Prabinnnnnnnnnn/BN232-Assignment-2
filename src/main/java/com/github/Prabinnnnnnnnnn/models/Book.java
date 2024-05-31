@@ -1,5 +1,7 @@
 package com.github.Prabinnnnnnnnnn.models;
 
+import java.util.ArrayList;
+
 /**
  * Book contains and controls all information for a single {@code Book} instance.
  */
@@ -33,6 +35,8 @@ public class Book {
      */
     private int catalogueNumber;
 
+    private ArrayList<BookCopy> copies;
+
     public Book(String title, String author, String edition, String pubYear, String isbn, String publisher, int catalogueNumber) {
         this.title = title;
         this.author = author;
@@ -41,10 +45,23 @@ public class Book {
         this.isbn = isbn;
         this.publisher = publisher;
         this.catalogueNumber = catalogueNumber;
+        this.copies = new ArrayList<>();
     }
 
     public Book returnBook() {
         return this;
+    }
+
+    public boolean checkForExisting(String title) {
+        return this.title.equals(title);
+    }
+
+    public boolean checkForEdition(String title, String author) {
+        return this.title.equals(title) && this.author.equals(author);
+    }
+
+    public void createNewCopy(BookCopy copy) {
+        copies.add(copy);
     }
 
     public String getTitle() {
