@@ -90,20 +90,4 @@ public class Book {
     public void setCatalogueNumber(int catalogueNumber) {
         this.catalogueNumber = catalogueNumber;
     }
-
-    public boolean checkForExisting(String title) {
-        return this.title.equalsIgnoreCase(title);
-    }
-
-    public boolean checkForEdition(String title, String edition) {
-        return this.title.equalsIgnoreCase(title) && this.edition.equalsIgnoreCase(edition);
-    }
-
-    public void createNewCopy(BookCopy copy) {
-        //place
-    }
-
-    public void createNewBook(Book book) {
-        // place
-    }
 }
