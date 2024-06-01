@@ -48,6 +48,10 @@ public class Book {
         this.copies = new ArrayList<>();
     }
 
+    public ArrayList<BookCopy> getCopies() {
+        return copies;
+    }
+
     public Book returnBook() {
         return this;
     }
