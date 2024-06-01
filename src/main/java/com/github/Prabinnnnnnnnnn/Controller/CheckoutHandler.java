@@ -49,7 +49,7 @@ public class CheckoutHandler {
 
         BookCopy availableCopy = null;
         for (BookCopy copy : book.getCopies()) {
-            if (copy.getStatus().equals("available")) {
+            if (copy.getStatus().equals(BookCopyStatus.Available)) {
                 availableCopy = copy;
                 break;
             }
@@ -60,9 +60,19 @@ public class CheckoutHandler {
             return;
         }
 
-        Loan newLoan = new Loan(ID, new Date(), "checked out");
-        newLoan.checkoutBook(availableCopy.getCopyNum());
-        availableCopy.updateStatus("onLoan");
+        Patron patron = null;
+        for (Patron tpatron : patrons) {
+            if (tpatron.getID() == ID) {
+                patron = tpatron;
+            }
+        }
+
+        // get next loan id
+        int loanID = loans.get(loans.size() - 1).getLoanID() + 1;
+
+        Loan newLoan = new Loan(patron, loanID, new Date(), LoanStatus.Reserved);
+//        newLoan.checkoutBook(availableCopy.getCopyNum());
+        availableCopy.setStatus(BookCopyStatus.OnLoan);
         loans.add(newLoan);
     }
 
@@ -107,7 +117,7 @@ public class CheckoutHandler {
 
         BookCopy returnedCopy = null;
         for (BookCopy copy : book.getCopies()) {
-            if (copy.getStatus().equals("onLoan")) {
+            if (copy.getStatus().equals(BookCopyStatus.OnLoan)) {
                 returnedCopy = copy;
                 break;
             }
@@ -119,9 +129,9 @@ public class CheckoutHandler {
         }
 
         for (Loan loan : loans) {
-            if (loan.getLoanID() == ID && loan.getStatus().equals("checked out")) {
-                loan.updateStatus("returned");
-                returnedCopy.updateStatus("available");
+            if (loan.getLoanID() == ID && loan.getStatus().equals(LoanStatus.Reserved)) {
+                loan.setStatus(LoanStatus.Returned);
+                returnedCopy.setStatus(BookCopyStatus.Available);
                 break;
             }
         }
@@ -142,7 +152,7 @@ public class CheckoutHandler {
 
         Loan foundLoan = null;
         for (Loan loan : loans) {
-            if (loan.getLoanID() == ID && loan.getStatus().equals("returned")){
+            if (loan.getPatron().getID() == ID && loan.getStatus().equals(LoanStatus.Returned)){
                 foundLoan = loan;
                 break;
             }
@@ -153,7 +163,7 @@ public class CheckoutHandler {
             return;
         }
     
-        foundLoan.updateStatus("completed");
+        foundLoan.setStatus(LoanStatus.Returned);
     
         Book book = null;
         for (Book b : books) {
@@ -169,8 +179,8 @@ public class CheckoutHandler {
         }
     
         for (BookCopy copy : book.getCopies()) {
-            if (copy.getStatus().equals("onLoan")) {
-                copy.updateStatus("available");
+            if (copy.getStatus().equals(BookCopyStatus.OnLoan)) {
+                copy.setStatus(BookCopyStatus.Available);
                 break;
             }
         }

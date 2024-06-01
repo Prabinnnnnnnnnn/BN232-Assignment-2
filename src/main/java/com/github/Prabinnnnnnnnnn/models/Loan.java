@@ -9,12 +9,12 @@ public class Loan {
     private LoanStatus status;
     private LoanItem item;
 
-    public Loan(Patron patron, int loanID, Date dateOfLoan, LoanStatus status, LoanItem item) {
+    public Loan(Patron patron, int loanID, Date dateOfLoan, LoanStatus status) {
         this.loanID = loanID;
         this.patron = patron;
         this.dateOfLoan = dateOfLoan;
         this.status = status;
-        this.item = item;
+        this.item = null;
     }
 
     public void closeLoan() {

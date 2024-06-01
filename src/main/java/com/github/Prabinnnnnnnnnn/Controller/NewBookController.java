@@ -2,6 +2,8 @@ package com.github.Prabinnnnnnnnnn.Controller;
 
 import com.github.Prabinnnnnnnnnn.models.Book;
 import com.github.Prabinnnnnnnnnn.models.BookCopy;
+import com.github.Prabinnnnnnnnnn.models.BookCopyStatus;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -32,7 +34,7 @@ public class NewBookController {
         return false;
     }
 
-    public void createNewCopy(Book book, int copyNum, String status, Date dueBack) {
+    public void createNewCopy(Book book, int copyNum, BookCopyStatus status, Date dueBack) {
         BookCopy newCopy = new BookCopy(copyNum, status, dueBack);
         book.createNewCopy(newCopy);
     }
