@@ -244,6 +244,7 @@ public class BookFrame extends JFrame {
                 // Show a message to the user indicating that all fields must be filled
                 JOptionPane.showMessageDialog(this, "Please fill in all fields.", "Incomplete Fields", JOptionPane.WARNING_MESSAGE);
             }
+            bookList.getSelectionModel().setValueIsAdjusting(false);
 
 
         });
@@ -301,20 +302,24 @@ public class BookFrame extends JFrame {
         refreshFields();
     }
 
-    private void updateBook() {
-        Controller.getBooks().forEach(book -> {
-            if (book.getIsbn().equals(isbnField.getText())) {
+    private void updateBook() { String isbnToUpdate = isbnField.getText(); // Store the ISBN before updating
+
+        // Loop through the books to find the one to update
+        for (Book book : Controller.getBooks()) {
+            if (book.getIsbn().equals(isbnToUpdate)) {
+                // Update the book's details
                 book.setAuthor(authorField.getText());
                 book.setEdition(editionField.getText());
                 book.setTitle(titleField.getText());
                 book.setPublisher(publisherField.getText());
-                book.setIsbn(isbnField.getText());
                 book.setPubYear(publicationYearField.getText());
                 book.setCatalogueNumber(catalogueNumberField.getText());
+                break; // Exit the loop once the book is updated
             }
-        });
-        updateBookList();
-        refreshFields();
+        }
+
+        updateBookList(); // Update the book list display
+        refreshFields(); // Clear the fields after updating
     }
 
     private void addBook() {
