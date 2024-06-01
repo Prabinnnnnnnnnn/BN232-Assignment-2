@@ -128,6 +128,55 @@ public class CheckoutHandler {
     }
 
     public void endBookReturn() {
-        // place
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter patron ID: ");
+        int ID = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.print("Enter book title: ");
+        String title = scanner.nextLine();
+
+        System.out.print("Enter book edition: ");
+        String edition = scanner.nextLine();
+
+        Loan foundLoan = null;
+        for (Loan loan : loans) {
+            if (loan.getLoanID() == ID && loan.getStatus().equals("returned")){
+                foundLoan = loan;
+                break;
+            }
+        }
+
+        if (foundLoan == null) {
+            System.out.println("No matching returned loan found.");
+            return;
+        }
+    
+        foundLoan.updateStatus("completed");
+    
+        Book book = null;
+        for (Book b : books) {
+            if (b.getTitle().equalsIgnoreCase(title) && b.getEdition().equalsIgnoreCase(edition)) {
+                book = b;
+                break;
+            }
+        }
+    
+        if (book == null) {
+            System.out.println("Book not found.");
+            return;
+        }
+    
+        for (BookCopy copy : book.getCopies()) {
+            if (copy.getStatus().equals("onLoan")) {
+                copy.updateStatus("available");
+                break;
+            }
+        }
+    
+        System.out.println("Book return process completed.");
     }
-}
+
+        
+    }
