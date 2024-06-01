@@ -166,10 +166,27 @@ public class PatronFrame extends JFrame {
      });
     }
 
-    private void updatePatron() {
+    private void updatePatron() {int selectedIndex = patronList.getSelectedIndex();
+        if (selectedIndex != -1) {
+            String name = nameField.getText();
+            String id = idField.getText();
+            String address = addressField.getText();
+            String phone = phoneField.getText();
+
+            String updatedPatron = String.format("ID: %s, Name: %s, Address: %s, Phone: %s", id, name, address, phone);
+            listModel.setElementAt(updatedPatron, selectedIndex);
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select a patron to update.");
+        }
+
     }
 
-    private void deletePatron() {
+    private void deletePatron() {int selectedIndex = patronList.getSelectedIndex();
+        if (selectedIndex != -1) {
+            listModel.remove(selectedIndex);
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select a patron to delete.");
+        }
     }
 
     private void addPatron() {
