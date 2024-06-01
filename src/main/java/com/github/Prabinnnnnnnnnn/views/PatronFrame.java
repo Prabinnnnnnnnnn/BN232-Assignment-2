@@ -10,8 +10,8 @@ import java.awt.*;
 public class PatronFrame extends JFrame {
 
     // Declare GUI components for patron details and actions
-    private final JTextField nameField; // Text field for the patron name
-    private final JTextField idField; // Text field for the patron ID
+    private final JTextField idField; // Text field for the patron name
+    private final JTextField nameField; // Text field for the patron ID
     private final JTextField addressField; // Text field for the patron address
     private final JTextField phoneField; // Text field for the patron phone number
     private final JButton addButton; // Button to add a new patron
@@ -24,8 +24,8 @@ public class PatronFrame extends JFrame {
     private void refreshFields() {
 
 
-        nameField.setText("");
         idField.setText("");
+        nameField.setText("");
         addressField.setText("");
         phoneField.setText("");
     }
@@ -120,8 +120,8 @@ public class PatronFrame extends JFrame {
         addButton.addActionListener(e -> {
             if(!nameField.getText().isEmpty() && !idField.getText().isEmpty() && !addressField.getText().isEmpty() && !phoneField.getText().isEmpty()) {
                 addPatron();
-                String name = nameField.getText();
                 String id = idField.getText();
+                String name = nameField.getText();
                 String address = addressField.getText();
                 String phone= phoneField.getText();
 
@@ -150,8 +150,8 @@ public class PatronFrame extends JFrame {
      updateButton.addActionListener(e -> {
          if(!nameField.getText().isEmpty() && !idField.getText().isEmpty() && !phoneField.getText().isEmpty()) {
 
-             String name = nameField.getText();
-             String id = idField.getText();
+             String name = idField.getText();
+             String id = nameField.getText();
              String address = addressField.getText();
              String phone= phoneField.getText();
 
@@ -166,10 +166,27 @@ public class PatronFrame extends JFrame {
      });
     }
 
-    private void updatePatron() {
+    private void updatePatron() {int selectedIndex = patronList.getSelectedIndex();
+        if (selectedIndex != -1) {
+            String name = nameField.getText();
+            String id = idField.getText();
+            String address = addressField.getText();
+            String phone = phoneField.getText();
+
+            String updatedPatron = String.format("ID: %s, Name: %s, Address: %s, Phone: %s", id, name, address, phone);
+            listModel.setElementAt(updatedPatron, selectedIndex);
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select a patron to update.");
+        }
+
     }
 
-    private void deletePatron() {
+    private void deletePatron() {int selectedIndex = patronList.getSelectedIndex();
+        if (selectedIndex != -1) {
+            listModel.remove(selectedIndex);
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select a patron to delete.");
+        }
     }
 
     private void addPatron() {

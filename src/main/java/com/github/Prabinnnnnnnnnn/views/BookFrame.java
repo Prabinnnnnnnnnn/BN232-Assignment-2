@@ -195,10 +195,49 @@ public class BookFrame extends JFrame {
         add(inputPanel, BorderLayout.NORTH);
         // Add the book list inside a scroll pane to the center of the frame
         add(new JScrollPane(bookList), BorderLayout.CENTER);
+        bookList.getSelectionModel().addListSelectionListener(e -> {
+            if (bookList.getSelectedRow() == -1) return;
+            if (e.getValueIsAdjusting()) return;
+
+            String title = "";
+            String author = "";
+            String isbn = "";
+            String publicationYear = "";
+            String publisher = "";
+            String edition = "";
+            String catalogueNumber = "";
+
+            for (int i = bookList.getColumnCount() - 1; i >= 0; i--) {
+                switch (bookList.getColumnName(i)) {
+                    case "ISBN":
+                        isbn = bookList.getValueAt(bookList.getSelectedRow(), i).toString();
+                        break; // Add break statement here
+                    case "Title":
+                        title = bookList.getValueAt(bookList.getSelectedRow(), i).toString();
+                        break;
+                    case "Author":
+                        author = bookList.getValueAt(bookList.getSelectedRow(), i).toString();
+                        break;
+                    case "Edition":
+                        edition = bookList.getValueAt(bookList.getSelectedRow(), i).toString();
+                        break;
+                    case "Publication Year":
+                        publicationYear = bookList.getValueAt(bookList.getSelectedRow(), i).toString();
+                        break;
+                    case "Publisher":
+                        publisher = bookList.getValueAt(bookList.getSelectedRow(), i).toString();
+                        break;
+                    case "Catalogue":
+                        catalogueNumber = bookList.getValueAt(bookList.getSelectedRow(), i).toString();
+                        break;
+                }
+            }
+            setFields(title, author, isbn, publicationYear, publisher, edition, catalogueNumber);
+        });
+
 
         addButton.addActionListener(e -> {
-            bookList.clearSelection();
-            bookList.getSelectionModel().setValueIsAdjusting(true);
+
 
 
             if (!isbnField.getText().isEmpty() &&
@@ -218,7 +257,7 @@ public class BookFrame extends JFrame {
                 // Show a message to the user indicating that all fields must be filled
                 JOptionPane.showMessageDialog(this, "Please fill in all fields.", "Incomplete Fields", JOptionPane.WARNING_MESSAGE);
             }
-            bookList.getSelectionModel().setValueIsAdjusting(false);
+
 
         });
 
