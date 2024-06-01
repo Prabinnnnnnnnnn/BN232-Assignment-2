@@ -105,21 +105,34 @@ public class BookFrame extends JFrame {
             String catalogueNumber = "";
 
             for (int i = bookList.getColumnCount() - 1; i >= 0; i--) {
+                System.out.println(bookList.getColumnName(i));
                 switch (bookList.getColumnName(i)) {
                     case "ISBN":
                         isbn = bookList.getValueAt(bookList.getSelectedRow(), i).toString();
+                        continue;
                     case "Title":
                         title = bookList.getValueAt(bookList.getSelectedRow(), i).toString();
+                        continue;
+
                     case "Author":
                         author = bookList.getValueAt(bookList.getSelectedRow(), i).toString();
+                        continue;
+
                     case "Edition":
                         edition = bookList.getValueAt(bookList.getSelectedRow(), i).toString();
+                        continue;
+
                     case "Publication Year":
                         publicationYear = bookList.getValueAt(bookList.getSelectedRow(), i).toString();
+                        continue;
+
                     case "Publisher":
                         publisher = bookList.getValueAt(bookList.getSelectedRow(), i).toString();
+                        continue;
+
                     case "Catalogue":
                         catalogueNumber = bookList.getValueAt(bookList.getSelectedRow(), i).toString();
+
                 }
             }
 
