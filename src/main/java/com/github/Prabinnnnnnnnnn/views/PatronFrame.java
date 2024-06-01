@@ -117,6 +117,30 @@ public class PatronFrame extends JFrame {
         // Add the patron list inside a scroll pane to the center of the frame
         add(new JScrollPane(patronList), BorderLayout.CENTER);
 
+        patronList.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) { // Ensure that it's not an interim change
+                int selectedIndex = patronList.getSelectedIndex();
+                if (selectedIndex != -1) {
+                    // Get the patron information from the listModel
+                    String patronInfo = listModel.getElementAt(selectedIndex);
+                    // Split the patron information into parts (assuming the format is consistent)
+                    String[] parts = patronInfo.split(", ");
+                    // Extract the individual fields
+                    String id = parts[0].substring(parts[0].indexOf(":") + 2); // Extract ID
+                    String name = parts[1].substring(parts[1].indexOf(":") + 2); // Extract Name
+                    String address = parts[2].substring(parts[2].indexOf(":") + 2); // Extract Address
+                    String phone = parts[3].substring(parts[3].indexOf(":") + 2); // Extract Phone
+                    // Set the fields with the extracted information
+                    idField.setText(id);
+                    nameField.setText(name);
+                    addressField.setText(address);
+                    phoneField.setText(phone);
+                }
+            }
+        });
+
+
+
         addButton.addActionListener(e -> {
             if(!nameField.getText().isEmpty() && !idField.getText().isEmpty() && !addressField.getText().isEmpty() && !phoneField.getText().isEmpty()) {
                 addPatron();
@@ -136,16 +160,19 @@ public class PatronFrame extends JFrame {
         });
 
      deleteButton.addActionListener(e -> {
-         if(!idField.getText().isEmpty() ) {
-             listModel.removeElement(idField.getText());
-             deletePatron();
 
-             JOptionPane.showMessageDialog(this, "Patron deleted");
-             refreshFields();
-         }else{
-             JOptionPane.showMessageDialog(this, "Please fill all the fields");
-         }
-     });
+             int selectedIndex = patronList.getSelectedIndex();
+             if (selectedIndex != -1) {
+                 listModel.remove(selectedIndex); // Remove the selected patron from the listModel
+                 refreshFields(); // Clear the fields
+             } else {
+                 JOptionPane.showMessageDialog(this, "Please select a patron to delete.");
+             }
+         });
+
+
+
+
 
      updateButton.addActionListener(e -> {
          if(!nameField.getText().isEmpty() && !idField.getText().isEmpty() && !phoneField.getText().isEmpty()) {
@@ -164,6 +191,7 @@ public class PatronFrame extends JFrame {
              JOptionPane.showMessageDialog(this, "Please fill all the fields");
          }
      });
+
     }
 
     private void updatePatron() {int selectedIndex = patronList.getSelectedIndex();
