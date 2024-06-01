@@ -7,11 +7,11 @@ import java.awt.*;
 public class LoanFrame extends JFrame {
 
     // Declare GUI components for loan details and actions
-    private final JTextField IsbnField; // Text field for the loan item
-    private final JTextField PatronIDField; // Text field for who owns the loan
+    private final JTextField loanItemField; // Text field for the loan item
+    private final JTextField loanIDField; // Text field for who owns the loan
     private final JTextField startDateField; // Text field for the loan start date
     private final JTextField endDateField; // Text field for the loan end date
-    private final JTextField statusField; // Text field for the loan status
+    private final JTextField LoanStatusField; // Text field for the loan status
     private final JButton addButton; // Button to add a new loan
     private final JButton updateButton; // Button to update loan details
     private final JButton deleteButton; // Button to delete a loan
@@ -29,11 +29,11 @@ public class LoanFrame extends JFrame {
         setLocationRelativeTo(null);
 
         // Initialize text fields
-        IsbnField = new JTextField(20); // 20 columns wide
-        PatronIDField = new JTextField(20); // 20 columns wide
+        loanItemField = new JTextField(20); // 20 columns wide
+        loanIDField = new JTextField(20); // 20 columns wide
         startDateField = new JTextField(20); // 20 columns wide
         endDateField = new JTextField(20); // 20 columns wide
-        statusField = new JTextField(20); // 20 columns wide
+        LoanStatusField = new JTextField(20); // 20 columns wide
 
         // Initialize buttons
         addButton = new JButton("Add Loan");
@@ -50,13 +50,13 @@ public class LoanFrame extends JFrame {
         inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS)); // Use BoxLayout for vertical arrangement
 
         // Create and add sub-panels for each row of input fields and buttons
-        JPanel IsbnPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        IsbnPanel.add(new JLabel("ISBN NUMBER:"));
-        IsbnPanel.add(IsbnField);
+        JPanel loanItemPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        loanItemPanel.add(new JLabel("Loan Item:"));
+        loanItemPanel.add(loanItemField);
 
-        JPanel PatronIDPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        PatronIDPanel.add(new JLabel("Patron ID:"));
-        PatronIDPanel.add(PatronIDField);
+        JPanel loanIDPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        loanIDPanel.add(new JLabel("Loan ID:"));
+        loanIDPanel.add(loanIDField);
 
         JPanel startDatePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         startDatePanel.add(new JLabel("Start Date:"));
@@ -66,9 +66,9 @@ public class LoanFrame extends JFrame {
         endDatePanel.add(new JLabel("End Date:"));
         endDatePanel.add(endDateField);
 
-        JPanel statusPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        statusPanel.add(new JLabel("Status:"));
-        statusPanel.add(statusField);
+        JPanel LoanStatusPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        LoanStatusPanel.add(new JLabel("Status:"));
+        LoanStatusPanel.add(LoanStatusField);
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         buttonPanel.add(addButton);
@@ -77,11 +77,11 @@ public class LoanFrame extends JFrame {
 
         // Add sub-panels to the input panel
 
-        inputPanel.add(IsbnPanel);
-        inputPanel.add(PatronIDPanel);
+        inputPanel.add(loanItemPanel);
+        inputPanel.add(loanIDPanel);
         inputPanel.add(startDatePanel);
         inputPanel.add(endDatePanel);
-        inputPanel.add(statusPanel);
+        inputPanel.add(LoanStatusPanel);
         inputPanel.add(buttonPanel);
 
         // Add the input panel to the top of the frame
@@ -91,21 +91,21 @@ public class LoanFrame extends JFrame {
 
         // Action listeners for buttons
         addButton.addActionListener(e -> {
-            if (!IsbnField.getText().isEmpty() &&
-                    !PatronIDField.getText().isEmpty() &&
+            if (!loanItemField.getText().isEmpty() &&
+                    !loanIDField.getText().isEmpty() &&
                     !startDateField.getText().isEmpty() &&
                     !endDateField.getText().isEmpty() &&
-                    !statusField.getText().isEmpty()) {
+                    !LoanStatusField.getText().isEmpty()) {
 
                 // Add loan logic here (you can modify this part based on your backend)
-                String Isbn = IsbnField.getText();
-                String PatronID = PatronIDField.getText();
+                String Isbn = loanItemField.getText();
+                String PatronID = loanIDField.getText();
                 String startDate = startDateField.getText();
                 String endDate = endDateField.getText();
-                String status = statusField.getText();
+                String status = LoanStatusField.getText();
 
                 // Add to list model
-                listModel.addElement(String.format("Isbn number: %s, Patron ID: %s, Start: %s, End: %s, Status: %s", Isbn, PatronID, startDate, endDate, status));
+                listModel.addElement(String.format("LoanItem: %s, Loan ID: %s, Start: %s, End: %s, Status: %s", Isbn, PatronID, startDate, endDate, status));
 
                 // Show a success message
                 JOptionPane.showMessageDialog(this, "Loan created successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
@@ -120,21 +120,21 @@ public class LoanFrame extends JFrame {
 
         updateButton.addActionListener(e -> {
             int selectedIndex = loanList.getSelectedIndex();
-            if (selectedIndex != -1 && !IsbnField.getText().isEmpty() &&
-                    !PatronIDField.getText().isEmpty() &&
+            if (selectedIndex != -1 && !loanItemField.getText().isEmpty() &&
+                    !loanIDField.getText().isEmpty() &&
                     !startDateField.getText().isEmpty() &&
                     !endDateField.getText().isEmpty() &&
-                    !statusField.getText().isEmpty()) {
+                    !LoanStatusField.getText().isEmpty()) {
 
                 // Update loan logic here (you can modify this part based on your backend)
-                String Isbn = IsbnField.getText();
-                String PatronID = PatronIDField.getText();
+                String Isbn = loanItemField.getText();
+                String PatronID = loanIDField.getText();
                 String startDate = startDateField.getText();
                 String endDate = endDateField.getText();
-                String status = statusField.getText();
+                String status = LoanStatusField.getText();
 
                 // Update list model
-                listModel.set(selectedIndex, String.format("Isbn number : %s, Patron ID: %s, Start: %s, End: %s, Status: %s", Isbn, PatronID, startDate, endDate, status));
+                listModel.set(selectedIndex, String.format("Loan Item : %s, Loan ID: %s, Start: %s, End: %s, Status: %s", Isbn, PatronID, startDate, endDate, status));
 
                 // Show a success message
                 JOptionPane.showMessageDialog(this, "Loan updated successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
@@ -177,22 +177,22 @@ public class LoanFrame extends JFrame {
 
     // Method to refresh the input fields
     private void refreshFields() {
-        IsbnField.setText("");
-        PatronIDField.setText("");
+        loanItemField.setText("");
+        loanIDField.setText("");
         startDateField.setText("");
         endDateField.setText("");
-        statusField.setText("");
+        LoanStatusField.setText("");
     }
 
     // Method to fill the input fields with loan details
     private void fillFieldsWithLoan(String loanDetails) {
         // Assuming loanDetails are formatted as "Item: item, Owner: owner, Start: start, End: end, Status: status"
         String[] details = loanDetails.split(", ");
-        IsbnField.setText(details[0].split(": ")[1]);
-        PatronIDField.setText(details[1].split(": ")[1]);
+        loanItemField.setText(details[0].split(": ")[1]);
+        loanIDField.setText(details[1].split(": ")[1]);
         startDateField.setText(details[2].split(": ")[1]);
         endDateField.setText(details[3].split(": ")[1]);
-        statusField.setText(details[4].split(": ")[1]);
+        LoanStatusField.setText(details[4].split(": ")[1]);
     }
 
 
