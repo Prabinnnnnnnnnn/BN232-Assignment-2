@@ -4,7 +4,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 
-import com.github.Prabinnnnnnnnnn.models.*;
+import com.github.Prabinnnnnnnnnn.models.Book;
+import com.github.Prabinnnnnnnnnn.models.BookCopy;
+import com.github.Prabinnnnnnnnnn.models.BookCopyStatus;
+import com.github.Prabinnnnnnnnnn.models.Loan;
+import com.github.Prabinnnnnnnnnn.models.LoanStatus;
+import com.github.Prabinnnnnnnnnn.models.Patron;
 
 
 public class CheckoutHandler {
@@ -86,18 +91,18 @@ public class CheckoutHandler {
     }
 
     public void beginBookReturn() {
-         Scanner scanner = new Scanner(System.in);
+         try (Scanner scanner = new Scanner(System.in)) {
+            System.out.print("Enter patron ID: ");
+            int ID = scanner.nextInt();
 
-        System.out.print("Enter patron ID: ");
-        int ID = scanner.nextInt();
+            System.out.print("Enter book title: ");
+            String title = scanner.nextLine();
 
-        System.out.print("Enter book title: ");
-        String title = scanner.nextLine();
+            System.out.print("Enter book edition: ");
+            String edition = scanner.nextLine();
 
-        System.out.print("Enter book edition: ");
-        String edition = scanner.nextLine();
-
-        returnBook(ID, title, edition);
+            returnBook(ID, title, edition);
+        }
     }
     
 
@@ -138,53 +143,53 @@ public class CheckoutHandler {
     }
 
     public void endBookReturn() {
-        Scanner scanner = new Scanner(System.in);
+        try (Scanner scanner = new Scanner(System.in)) {
+            System.out.print("Enter patron ID: ");
+            int ID = scanner.nextInt();
+            scanner.nextLine();
 
-        System.out.print("Enter patron ID: ");
-        int ID = scanner.nextInt();
-        scanner.nextLine();
+            System.out.print("Enter book title: ");
+            String title = scanner.nextLine();
 
-        System.out.print("Enter book title: ");
-        String title = scanner.nextLine();
+            System.out.print("Enter book edition: ");
+            String edition = scanner.nextLine();
 
-        System.out.print("Enter book edition: ");
-        String edition = scanner.nextLine();
+            Loan foundLoan = null;
+            for (Loan loan : loans) {
+                if (loan.getPatron().getID() == ID && loan.getStatus().equals(LoanStatus.Returned)){
+                    foundLoan = loan;
+                    break;
+                }
+            }
 
-        Loan foundLoan = null;
-        for (Loan loan : loans) {
-            if (loan.getPatron().getID() == ID && loan.getStatus().equals(LoanStatus.Returned)){
-                foundLoan = loan;
-                break;
+            if (foundLoan == null) {
+                System.out.println("No matching returned loan found.");
+                return;
+            }
+   
+            foundLoan.setStatus(LoanStatus.Returned);
+   
+            Book book = null;
+            for (Book b : books) {
+                if (b.getTitle().equalsIgnoreCase(title) && b.getEdition().equalsIgnoreCase(edition)) {
+                    book = b;
+                    break;
+                }
+            }
+   
+            if (book == null) {
+                System.out.println("Book not found.");
+                return;
+            }
+   
+            for (BookCopy copy : book.getCopies()) {
+                if (copy.getStatus().equals(BookCopyStatus.OnLoan)) {
+                    copy.setStatus(BookCopyStatus.Available);
+                    break;
+                }
             }
         }
 
-        if (foundLoan == null) {
-            System.out.println("No matching returned loan found.");
-            return;
-        }
-    
-        foundLoan.setStatus(LoanStatus.Returned);
-    
-        Book book = null;
-        for (Book b : books) {
-            if (b.getTitle().equalsIgnoreCase(title) && b.getEdition().equalsIgnoreCase(edition)) {
-                book = b;
-                break;
-            }
-        }
-    
-        if (book == null) {
-            System.out.println("Book not found.");
-            return;
-        }
-    
-        for (BookCopy copy : book.getCopies()) {
-            if (copy.getStatus().equals(BookCopyStatus.OnLoan)) {
-                copy.setStatus(BookCopyStatus.Available);
-                break;
-            }
-        }
-    
         System.out.println("Book return process completed.");
     }
 
